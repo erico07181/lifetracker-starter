@@ -49,6 +49,9 @@ export default function Navbar() {
           <Link to="/login" className={classes.link}>
             Login
           </Link>
+          <Link to="/register" className={classes.link}>
+            <button className="btn_primary">Sign Up</button>
+          </Link>
         </div>
       </Toolbar>
     </AppBar>

@@ -28,7 +28,7 @@
 }
 
 h1 {
-  color: white;
+  color: #e4dccf;
   font-size: 80px;
   text-align: center;
   position: absolute;
@@ -40,10 +40,6 @@ h1 {
   margin: auto;
 }
 
-p {
-  color: white;
-}
-
 .Landing .tiles {
   display: flex;
   flex-direction: row;
@@ -51,4 +47,16 @@ p {
   align-items: center;
   width: 750px;
   margin: 50px auto 0;
+}
+
+.Landing .tiles .tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+p {
+  color: #e4dccf;
+  margin-top: 3px;
 }

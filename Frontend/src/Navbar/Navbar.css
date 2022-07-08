@@ -1,3 +1,21 @@
 .navbar {
   background-color: #576f72;
+  align-items: right;
+}
+
+navLinks {
+  justify-content: flex;
+}
+
+.btn_primary {
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  border-radius: 6px;
+  background: #00c98e;
+  background: #00c98e;
+  color: #fff;
+  font-size: 20px;
+  height: 50px;
 }
