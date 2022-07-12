@@ -5,6 +5,7 @@ import Navbar from "./Navbar/Navbar";
 import Landing from "./Landing/Landing";
 import Register from "./Navbar/Register/Register";
 import Login from "./Navbar/Login/Login";
+import Nutrition from "./Nutrition/Nutrition";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 
 function App() {
@@ -14,11 +15,12 @@ function App() {
         <div className="Navbar">
           <Navbar />
           <Routes>
+            <Route path="/" element={<Landing />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/nutrition" element={<Nutrition />} />
           </Routes>
         </div>
-        <Landing />
       </BrowserRouter>
     </div>
   );

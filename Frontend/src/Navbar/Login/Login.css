@@ -1,0 +1,62 @@
+.Login {
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  display: flex;
+  padding: 50px 100px;
+  background-color: #7d9d9c;
+  justify-content: center;
+}
+
+.Login .card {
+  max-width: 520px;
+  padding: 24px 36px 0 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Login .card h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #e4dccf;
+}
+
+.Login .card .form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.Login .card .form .input-field {
+  margin: 8px 0;
+}
+
+.Login .card .form .input-field label {
+  margin-bottom: 5px;
+  color: #e4dccf;
+}
+
+.Login .card .form .btn {
+  width: 100%;
+  height: 70px;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #00c98e;
+  border: none;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.Login .card .footer {
+  border-top: 1px solid #e4dccf;
+  margin-top: auto;
+  height: 100px;
+}

@@ -38,10 +38,10 @@ export default function Navbar() {
             Activity
           </Link>
           <Link to="/exercise" className={classes.link}>
-            Contact
+            Exercise
           </Link>
           <Link to="/nutrition" className={classes.link}>
-            FAQ
+            Nutrition
           </Link>
           <Link to="/sleep" className={classes.link}>
             Sleep
