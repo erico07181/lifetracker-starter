@@ -9,6 +9,7 @@ import Nutrition from "./Nutrition/Nutrition";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 
 function App() {
+  const [user, setUser] = useState({});
   return (
     <div className="app">
       <BrowserRouter>
@@ -16,7 +17,10 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/register" element={<Register />} />
+            <Route
+              path="/register"
+              element={<Register user={user} setUser={setUser} />}
+            />
             <Route path="/login" element={<Login />} />
             <Route path="/nutrition" element={<Nutrition />} />
           </Routes>

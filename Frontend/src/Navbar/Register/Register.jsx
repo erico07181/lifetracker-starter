@@ -1,9 +1,12 @@
 import * as React from "react";
 import { useState } from "react";
-//import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 import "./Register.css";
+import { useEffect } from "react";
 
-export default function Register() {
+export default function Register({ user, setUser }) {
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
@@ -15,41 +18,48 @@ export default function Register() {
     confirmPassword: "",
   });
 
+  useEffect(() => {
+    if (user?.email) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
   const handleOnSubmit = async () => {
-    //     setIsLoading(true);
-    //     setErrors((e) => ({ ...e, form: null }));
-    //     if (form.confirmPassword !== form.password) {
-    //       setErrors((e) => ({ ...e, confirmPassword: "Passwords do not match" }));
-    //       setIsLoading(false);
-    //       return;
-    //     } else {
-    //       setErrors((e) => ({ ...e, confirmPassword: null }));
-    //     }
-    //     try {
-    //         const res = await axios.post("https://localhost:3001/auth/register", {
-    //             email: form.email,
-    //             username: form.username,
-    //             first_name: form.first_name,
-    //             last_name: form.last_name,
-    //             password: form.password
-    //         })
-    //         if(res?.data?.user) {
-    //             setAppState(res.data)
-    //             setIsLoading(false)
-    //         }
-    //         else {
-    //             setErrors((e) => ({
-    //                 ...e,
-    //                 form: "Something went wrong w registration"
-    //             }))
-    //             setIsLoading(false)
-    //         }
-    //         catch (err) {
-    //             console.log(err)
-    //             const message  = err?.response?.data?.error?.message
-    //         }
-    //     }
-    //     //Add axios post to register
+    setIsLoading(true);
+    setErrors((e) => ({ ...e, form: null }));
+
+    if (form.confirmPassword !== form.password) {
+      setErrors((e) => ({ ...e, passwordConfirm: "Passwords do not match." }));
+      setIsLoading(false);
+      return;
+    } else {
+      setErrors((e) => ({ ...e, passwordConfirm: null }));
+    }
+
+    try {
+      const res = await axios.post("http://localhost:3001/auth/register", {
+        first_name: form.first_name,
+        last_name: form.last_name,
+        username: form.username,
+        email: form.email,
+        password: form.password,
+      });
+
+      if (res?.data?.user) {
+        setUser(res.data.user);
+      } else {
+        setErrors((e) => ({
+          ...e,
+          form: "Something went wrong with registration",
+        }));
+      }
+    } catch (err) {
+      console.log(err);
+      const message = err?.response?.data?.error?.message;
+      setErrors((e) => ({ ...e, form: message ?? String(err) }));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleOnInputChange = (evt) => {
@@ -101,6 +111,7 @@ export default function Register() {
               value={form.email}
               onChange={handleOnInputChange}
             />
+            {errors.email && <span className="error">{errors.email}</span>}
           </div>
 
           <div className="input-field">
@@ -112,57 +123,66 @@ export default function Register() {
               value={form.username}
               onChange={handleOnInputChange}
             />
-
-            <div className="split-input-field">
-              <div className="input-field">
-                <input
-                  type="text"
-                  name="first_name"
-                  placeholder="First Name"
-                  value={form.first_name}
-                  onChange={handleOnInputChange}
-                />
-              </div>
-              <div className="input-field">
-                <input
-                  type="text"
-                  name="last_name"
-                  placeholder="Last Name"
-                  value={form.last_name}
-                  onChange={handleOnInputChange}
-                />
-              </div>
-
-              <div className="input-field">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Enter a secure password"
-                  value={form.password}
-                  onChange={handleOnInputChange}
-                />
-              </div>
-
-              <div className="input-field">
-                <label htmlFor="confirmPassord">Confirm Password</label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  placeholder="Confirm your password"
-                  value={form.confirmPassword}
-                  onChange={handleOnInputChange}
-                />
-              </div>
-              <button
-                className="btn"
-                disabled={isLoading}
-                onClick={handleOnSubmit}
-              >
-                {isLoading ? "Loading..." : "Create Account"}
-              </button>
-            </div>
+            {errors.name && <span className="error">{errors.name}</span>}
           </div>
+
+          <div className="split-input-field">
+            <div className="input-field">
+              <input
+                type="text"
+                name="first_name"
+                placeholder="First Name"
+                value={form.first_name}
+                onChange={handleOnInputChange}
+              />
+              {errors.first_name && (
+                <span className="error">{errors.first_name}</span>
+              )}
+            </div>
+            <div className="input-field">
+              <input
+                type="text"
+                name="last_name"
+                placeholder="Last Name"
+                value={form.last_name}
+                onChange={handleOnInputChange}
+              />
+            </div>
+            {errors.last_name && (
+              <span className="error">{errors.last_name}</span>
+            )}
+          </div>
+
+          <div className="input-field">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter a secure password"
+              value={form.password}
+              onChange={handleOnInputChange}
+            />
+            {errors.password && (
+              <span className="error">{errors.password}</span>
+            )}
+          </div>
+
+          <div className="input-field">
+            <label htmlFor="confirmPassord">Confirm Password</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm your password"
+              value={form.confirmPassword}
+              onChange={handleOnInputChange}
+            />
+            {errors.confirmPassword && (
+              <span className="error">{errors.confirmPassword}</span>
+            )}
+          </div>
+          <button className="btn" disabled={isLoading} onClick={handleOnSubmit}>
+            {isLoading ? "Loading..." : "Create Account"}
+          </button>
         </div>
       </div>
     </div>

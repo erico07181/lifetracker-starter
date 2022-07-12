@@ -88,7 +88,7 @@ export default function Login({ setAppState }) {
         </div>
         <div className="footer">
           <p>
-            "Don't have an account? Sign up <Link to="/register">here</Link>
+            Don't have an account? Sign up <Link to="/register">here</Link>
           </p>
         </div>
       </div>
