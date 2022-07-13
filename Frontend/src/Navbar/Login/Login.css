@@ -69,3 +69,7 @@
   margin-top: auto;
   height: 100px;
 }
+
+.error {
+  color: red;
+}

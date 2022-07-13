@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 
 function App() {
   const [user, setUser] = useState({});
+  const [appState, setAppState] = useState({});
   return (
     <div className="app">
       <BrowserRouter>
@@ -19,9 +20,18 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route
               path="/register"
-              element={<Register user={user} setUser={setUser} />}
+              element={
+                <Register
+                  user={user}
+                  setUser={setUser}
+                  setAppState={setAppState}
+                />
+              }
             />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login"
+              element={<Login setAppState={setAppState} />}
+            />
             <Route path="/nutrition" element={<Nutrition />} />
           </Routes>
         </div>

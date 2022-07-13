@@ -34,7 +34,7 @@ export default function Login({ setAppState }) {
       if (res?.data) {
         setAppState(res.data);
         setIsLoading(false);
-        navigate("/activity");
+        navigate("/");
       } else {
         setErrors((e) => ({
           ...e,
@@ -56,6 +56,7 @@ export default function Login({ setAppState }) {
     <div className="Login">
       <div className="card">
         <h2>Login</h2>
+        {Boolean(errors.form) && <span className="error">{errors.form}</span>}
         <br></br>
         <div className="form">
           <div className="input-field">
@@ -83,7 +84,7 @@ export default function Login({ setAppState }) {
             )}
           </div>
           <button disabled={isLoading} onClick={handleOnSubmit} className="btn">
-            Login
+            {isLoading ? "Loading..." : "Login"}
           </button>
         </div>
         <div className="footer">
