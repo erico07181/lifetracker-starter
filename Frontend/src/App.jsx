@@ -7,10 +7,12 @@ import Register from "./Navbar/Register/Register";
 import Login from "./Navbar/Login/Login";
 import Nutrition from "./Nutrition/Nutrition";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import Activity from "./Activity/Activity";
 
 function App() {
   const [user, setUser] = useState({});
   const [appState, setAppState] = useState({});
+
   return (
     <div className="app">
       <BrowserRouter>
@@ -33,6 +35,16 @@ function App() {
               element={<Login setAppState={setAppState} />}
             />
             <Route path="/nutrition" element={<Nutrition />} />
+            <Route
+              path="/activity"
+              element={
+                <Activity
+                  setAppState={setAppState}
+                  appState={appState}
+                  user={appState?.user}
+                />
+              }
+            />
           </Routes>
         </div>
       </BrowserRouter>
