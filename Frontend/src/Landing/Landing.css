@@ -28,7 +28,7 @@
   flex-direction: column;
 }
 
-h1 {
+.Landing h1 {
   color: #e4dccf;
   font-size: 80px;
   text-align: center;

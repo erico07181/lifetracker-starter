@@ -8,6 +8,7 @@ import Login from "./Navbar/Login/Login";
 import Nutrition from "./Nutrition/Nutrition";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import Activity from "./Activity/Activity";
+import Exercise from "./Exercise/Exercise";
 
 function App() {
   const [user, setUser] = useState({});
@@ -43,6 +44,12 @@ function App() {
                   appState={appState}
                   user={appState?.user}
                 />
+              }
+            />
+            <Route
+              path="/exercise"
+              element={
+                <Exercise setAppState={setAppState} user={appState?.user} />
               }
             />
           </Routes>

@@ -1,0 +1,75 @@
+.ExercisePage {
+  background-color: #7d9d9c;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Banner {
+  align-items: center;
+  justify-content: center;
+  background: #668584;
+  height: 120px;
+}
+
+.Banner h1 {
+  color: #e4dccf;
+  font-size: 42px;
+  text-align: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.ExercisePage .content {
+  margin: 50px auto 0;
+  max-width: 1100px;
+}
+
+.ExerciseOverview {
+  display: flex;
+  flex-direction: column;
+}
+
+.ExerciseOverview .header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ExerciseOverview .header h3 {
+  font-size: 42px;
+  font-weight: 700;
+  color: #e4dccf;
+}
+
+.Button.outline.gold {
+  background: transparent;
+  color: #ffab09;
+  border: 1px solid #ffab09;
+}
+
+.ExerciseOverview .feed {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  grid-gap: 10px;
+  gap: 10px;
+  margin-top: 50px;
+  padding-bottom: 50px;
+}
+
+.empty {
+  margin: 0 auto;
+}
+
+.empty h2 {
+  font-size: 32px;
+  color: #e4dccf;
+  padding: 10px 20px;
+  border: 1px solid #e4dccf;
+  border: 1px solid #e4dccf;
+  border-radius: 4px;
+}

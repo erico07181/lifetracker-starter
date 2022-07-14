@@ -5,7 +5,7 @@ import axios from "axios";
 import "./Register.css";
 import { useEffect } from "react";
 
-export default function Register({ user, setUser }) {
+export default function Register({ user, setUser, setAppState }) {
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);

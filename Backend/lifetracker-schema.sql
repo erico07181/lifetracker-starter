@@ -9,6 +9,16 @@ CREATE TABLE users (
     updated_at  TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TABLE exercise (
+    id          SERIAL PRIMARY KEY,
+    name        TEXT NOT NULL,
+    category    TEXT NOT NULL,
+    duration    INTEGER NOT NULL,
+    intensity   INTEGER NOT NULL,
+    user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_at  TIMESTAMP DEFAULT NOW()
+);
+
 CREATE TABLE nutrition (
     id          SERIAL PRIMARY KEY,
     name        TEXT NOT NULL UNIQUE,
@@ -17,5 +27,5 @@ CREATE TABLE nutrition (
     image_url   TEXT NOT NULL UNIQUE,
     user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     created_at  TIMESTAMP DEFAULT NOW()
-)
+);
 

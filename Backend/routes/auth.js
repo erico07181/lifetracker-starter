@@ -21,4 +21,13 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
+router.post("/addExercise", async (req, res, next) => {
+  try {
+    const userExercise = await User.addExercise(req.body);
+    return res.status(201).json({ userExercise });
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

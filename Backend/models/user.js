@@ -4,6 +4,38 @@ const { BCRYPT_WORK_FACTOR } = require("../config");
 const db = require("../db");
 
 class User {
+  static async makeExercise(exercise) {
+    return {
+      name: exercise.name,
+      category: exercise.category,
+      duration: exercise.duration,
+      intensity: exercise.intensity,
+      date: exercise.date,
+    };
+  }
+
+  static async addExercise(form) {
+    const requiredFields = ["name", "category", "duration", "intensity"];
+
+    requiredFields.forEach((property) => {
+      if (!form.hasOwnProperty(property)) {
+        throw new BadRequestError(`Missing ${property} in request body`);
+      }
+    });
+
+    const exerciseResult = await db.query(
+      `INSERT INTO exercise(name, category, duration, intensity, user_id)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING name, category, duration, intensity
+        `,
+      [form.name, form.category, form.duration, form.intensity, form.user_id]
+    );
+
+    const exercise = await exerciseResult.rows[0];
+
+    return User.makeExercise(exerciseResult.rows[0]);
+  }
+
   static async makePublicUser(user) {
     return {
       first_name: user.first_name,
