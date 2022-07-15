@@ -1,10 +1,13 @@
 .navbar {
   background-color: #576f72;
   align-items: right;
+  display: flex;
+  justify-content: flex;
 }
 
 navLinks {
   justify-content: flex;
+  display: flex;
 }
 
 .btn_primary {
