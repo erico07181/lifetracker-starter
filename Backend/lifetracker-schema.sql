@@ -15,7 +15,7 @@ CREATE TABLE exercise (
     category    TEXT NOT NULL,
     duration    INTEGER NOT NULL,
     intensity   INTEGER NOT NULL,
-    user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id     INTEGER NOT NULL REFERENCES users(id),
     created_at  TIMESTAMP DEFAULT NOW()
 );
 

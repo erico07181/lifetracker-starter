@@ -47,6 +47,7 @@ router.post(
   security.requireAuthenticatedUser,
   async (req, res, next) => {
     try {
+      const { user } = res.locals;
       const userExercise = await User.addExercise(req.body);
       return res.status(201).json({ userExercise });
     } catch (err) {

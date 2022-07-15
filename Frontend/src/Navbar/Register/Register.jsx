@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+//import axios from "axios";
+import apiClient from "../../../services/apiClient";
 import "./Register.css";
 import { useEffect } from "react";
 
@@ -36,30 +37,45 @@ export default function Register({ user, setUser, setAppState }) {
       setErrors((e) => ({ ...e, passwordConfirm: null }));
     }
 
-    try {
-      const res = await axios.post("http://localhost:3001/auth/register", {
-        first_name: form.first_name,
-        last_name: form.last_name,
-        username: form.username,
-        email: form.email,
-        password: form.password,
-      });
-
-      if (res?.data?.user) {
-        setUser(res.data.user);
-      } else {
-        setErrors((e) => ({
-          ...e,
-          form: "Something went wrong with registration",
-        }));
-      }
-    } catch (err) {
-      console.log(err);
-      const message = err?.response?.data?.error?.message;
-      setErrors((e) => ({ ...e, form: message ?? String(err) }));
-    } finally {
-      setIsLoading(false);
+    const { data, error } = await apiClient.registerUser({
+      first_name: form.first_name,
+      last_name: form.last_name,
+      username: form.username,
+      email: form.email,
+      password: form.password,
+    });
+    if (error) setErrors((e) => ({ ...e, form: error }));
+    if (data?.user) {
+      setUser(data.user);
+      apiClient.setToken(data.token);
     }
+
+    setIsLoading(false);
+
+    // try {
+    //   const res = await axios.post("http://localhost:3001/auth/register", {
+    //     first_name: form.first_name,
+    //     last_name: form.last_name,
+    //     username: form.username,
+    //     email: form.email,
+    //     password: form.password,
+    //   });
+
+    //   if (res?.data?.user) {
+    //     setUser(res.data.user);
+    //   } else {
+    //     setErrors((e) => ({
+    //       ...e,
+    //       form: "Something went wrong with registration",
+    //     }));
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    //   const message = err?.response?.data?.error?.message;
+    //   setErrors((e) => ({ ...e, form: message ?? String(err) }));
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   const handleOnInputChange = (evt) => {

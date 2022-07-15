@@ -15,6 +15,7 @@ class User {
   }
 
   static async addExercise(form) {
+    console.log(form);
     const requiredFields = ["name", "category", "duration", "intensity"];
 
     requiredFields.forEach((property) => {
@@ -33,7 +34,7 @@ class User {
 
     const exercise = await exerciseResult.rows[0];
 
-    return User.makeExercise(exerciseResult.rows[0]);
+    return User.makeExercise(exercise);
   }
 
   static async makePublicUser(user) {

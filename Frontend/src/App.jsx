@@ -33,7 +33,13 @@ function App() {
             />
             <Route
               path="/login"
-              element={<Login setAppState={setAppState} />}
+              element={
+                <Login
+                  setAppState={setAppState}
+                  user={user}
+                  setUser={setUser}
+                />
+              }
             />
             <Route path="/nutrition" element={<Nutrition />} />
             <Route
@@ -49,7 +55,11 @@ function App() {
             <Route
               path="/exercise"
               element={
-                <Exercise setAppState={setAppState} user={appState?.user} />
+                <Exercise
+                  setAppState={setAppState}
+                  user={appState?.user}
+                  setUser={setUser}
+                />
               }
             />
           </Routes>

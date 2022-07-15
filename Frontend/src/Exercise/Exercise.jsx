@@ -3,7 +3,7 @@ import Login from "../Navbar/Login/Login";
 
 import "./Exercise.css";
 
-export default function Exercise({ setAppState, user }) {
+export default function Exercise({ setAppState, user, setUser }) {
   const navigate = useNavigate();
 
   const isAuthenticated = Boolean(user?.email);
@@ -39,6 +39,6 @@ export default function Exercise({ setAppState, user }) {
   }
 
   if (!isAuthenticated) {
-    return <Login setAppState={setAppState} />;
+    return <Login setAppState={setAppState} setUser={setUser} user={user} />;
   }
 }
