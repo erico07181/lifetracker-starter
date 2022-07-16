@@ -2,11 +2,14 @@ import axios from "axios";
 
 class ApiClient {
   constructor(remoteHostUrl) {
-    (this.remoteHostUrl = remoteHostUrl), (this.token = null);
+    (this.remoteHostUrl = remoteHostUrl),
+      (this.token = null),
+      (this.tokenName = "lifetracker_token");
   }
 
   setToken(token) {
     this.token = token;
+    localStorage.setItem(this.tokenName, token);
   }
 
   async request({ endpoint, method = "GET", data = {} }) {
@@ -28,6 +31,10 @@ class ApiClient {
       const message = err?.response?.data?.error?.message;
       return { data: null, error: message || String(err) };
     }
+  }
+
+  async fetchUserFromToken() {
+    return await this.request({ endpoint: "auth/me", method: "GET" });
   }
 
   async loginUser(credentials) {

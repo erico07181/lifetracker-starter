@@ -5,8 +5,16 @@ import { useNavigate, Link } from "react-router-dom";
 import apiClient from "../../../services/apiClient";
 import "./Register.css";
 import { useEffect } from "react";
+import Activity from "../../Activity/Activity";
 
-export default function Register({ user, setUser, setAppState }) {
+export default function Register({
+  user,
+  setUser,
+  setAppState,
+  setIsLoggedIn,
+  isLoggedIn,
+  appState,
+}) {
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -18,12 +26,6 @@ export default function Register({ user, setUser, setAppState }) {
     password: "",
     confirmPassword: "",
   });
-
-  useEffect(() => {
-    if (user?.email) {
-      navigate("/");
-    }
-  }, [user, navigate]);
 
   const handleOnSubmit = async () => {
     setIsLoading(true);
@@ -48,34 +50,11 @@ export default function Register({ user, setUser, setAppState }) {
     if (data?.user) {
       setUser(data.user);
       apiClient.setToken(data.token);
+      setIsLoggedIn(true);
+      navigate("/activity");
     }
 
     setIsLoading(false);
-
-    // try {
-    //   const res = await axios.post("http://localhost:3001/auth/register", {
-    //     first_name: form.first_name,
-    //     last_name: form.last_name,
-    //     username: form.username,
-    //     email: form.email,
-    //     password: form.password,
-    //   });
-
-    //   if (res?.data?.user) {
-    //     setUser(res.data.user);
-    //   } else {
-    //     setErrors((e) => ({
-    //       ...e,
-    //       form: "Something went wrong with registration",
-    //     }));
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    //   const message = err?.response?.data?.error?.message;
-    //   setErrors((e) => ({ ...e, form: message ?? String(err) }));
-    // } finally {
-    //   setIsLoading(false);
-    // }
   };
 
   const handleOnInputChange = (evt) => {
@@ -112,95 +91,119 @@ export default function Register({ user, setUser, setAppState }) {
     setForm((f) => ({ ...f, [evt.target.name]: evt.target.value }));
   };
 
-  return (
-    <div className="Register">
-      <div className="card">
-        <h2>Register</h2>
-        <br></br>
-        <div className="form">
-          <div className="input-field">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter a valid email"
-              value={form.email}
-              onChange={handleOnInputChange}
-            />
-            {errors.email && <span className="error">{errors.email}</span>}
-          </div>
-
-          <div className="input-field">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              name="username"
-              placeholder="Enter a username"
-              value={form.username}
-              onChange={handleOnInputChange}
-            />
-            {errors.name && <span className="error">{errors.name}</span>}
-          </div>
-
-          <div className="split-input-field">
+  if (!isLoggedIn) {
+    return (
+      <div className="Register">
+        <div className="card">
+          <h2>Register</h2>
+          <br></br>
+          <div className="form">
             <div className="input-field">
+              <label htmlFor="email">Email</label>
               <input
-                type="text"
-                name="first_name"
-                placeholder="First Name"
-                value={form.first_name}
+                type="email"
+                name="email"
+                placeholder="Enter a valid email"
+                value={form.email}
                 onChange={handleOnInputChange}
               />
-              {errors.first_name && (
-                <span className="error">{errors.first_name}</span>
+              {errors.email && <span className="error">{errors.email}</span>}
+            </div>
+
+            <div className="input-field">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                name="username"
+                placeholder="Enter a username"
+                value={form.username}
+                onChange={handleOnInputChange}
+              />
+              {errors.name && <span className="error">{errors.name}</span>}
+            </div>
+
+            <div className="split-input-field">
+              <div className="input-field">
+                <input
+                  type="text"
+                  name="first_name"
+                  placeholder="First Name"
+                  value={form.first_name}
+                  onChange={handleOnInputChange}
+                />
+                {errors.first_name && (
+                  <span className="error">{errors.first_name}</span>
+                )}
+              </div>
+              <div className="input-field">
+                <input
+                  type="text"
+                  name="last_name"
+                  placeholder="Last Name"
+                  value={form.last_name}
+                  onChange={handleOnInputChange}
+                />
+              </div>
+              {errors.last_name && (
+                <span className="error">{errors.last_name}</span>
               )}
             </div>
+
             <div className="input-field">
+              <label htmlFor="password">Password</label>
               <input
-                type="text"
-                name="last_name"
-                placeholder="Last Name"
-                value={form.last_name}
+                type="password"
+                name="password"
+                placeholder="Enter a secure password"
+                value={form.password}
                 onChange={handleOnInputChange}
               />
+              {errors.password && (
+                <span className="error">{errors.password}</span>
+              )}
             </div>
-            {errors.last_name && (
-              <span className="error">{errors.last_name}</span>
-            )}
-          </div>
 
-          <div className="input-field">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter a secure password"
-              value={form.password}
-              onChange={handleOnInputChange}
-            />
-            {errors.password && (
-              <span className="error">{errors.password}</span>
-            )}
+            <div className="input-field">
+              <label htmlFor="confirmPassord">Confirm Password</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                value={form.confirmPassword}
+                onChange={handleOnInputChange}
+              />
+              {errors.confirmPassword && (
+                <span className="error">{errors.confirmPassword}</span>
+              )}
+            </div>
+            <button
+              className="btn"
+              disabled={isLoading}
+              onClick={handleOnSubmit}
+            >
+              {isLoading ? "Loading..." : "Create Account"}
+            </button>
           </div>
-
-          <div className="input-field">
-            <label htmlFor="confirmPassord">Confirm Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm your password"
-              value={form.confirmPassword}
-              onChange={handleOnInputChange}
-            />
-            {errors.confirmPassword && (
-              <span className="error">{errors.confirmPassword}</span>
-            )}
-          </div>
-          <button className="btn" disabled={isLoading} onClick={handleOnSubmit}>
-            {isLoading ? "Loading..." : "Create Account"}
-          </button>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (isLoggedIn) {
+    useEffect(() => {
+      if (user?.email) {
+        navigate("/activity");
+      }
+    }, [user, navigate]);
+
+    return (
+      <Activity
+        setAppState={setAppState}
+        appState={appState}
+        user={appState?.user}
+        setIsLoggedIn={setIsLoggedIn}
+        isLoggedIn={isLoggedIn}
+      />
+    );
+  }
 }

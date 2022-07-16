@@ -7,18 +7,46 @@ import Register from "./Navbar/Register/Register";
 import Login from "./Navbar/Login/Login";
 import Nutrition from "./Nutrition/Nutrition";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import apiClient from "../services/apiClient";
 import Activity from "./Activity/Activity";
 import Exercise from "./Exercise/Exercise";
+import { useEffect } from "react";
 
-function App() {
+export default function App() {
   const [user, setUser] = useState({});
   const [appState, setAppState] = useState({});
+  const [error, setError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data, error } = await apiClient.fetchUserFromToken();
+      if (data) {
+        setIsLoggedIn(true);
+        setUser(data.user);
+      }
+      if (error) setError(error);
+    };
+
+    const token = localStorage.getItem("lifetracker_token");
+    if (token) {
+      apiClient.setToken(token);
+      fetchUser();
+    }
+  }, []);
 
   return (
     <div className="app">
       <BrowserRouter>
         <div className="Navbar">
-          <Navbar />
+          <Navbar
+            user={user}
+            setUser={setUser}
+            setAppState={setAppState}
+            setIsLoggedIn={setIsLoggedIn}
+            isLoggedIn={isLoggedIn}
+            appState={appState}
+          />
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route
@@ -28,6 +56,9 @@ function App() {
                   user={user}
                   setUser={setUser}
                   setAppState={setAppState}
+                  setIsLoggedIn={setIsLoggedIn}
+                  isLoggedIn={isLoggedIn}
+                  appState={appState}
                 />
               }
             />
@@ -38,6 +69,8 @@ function App() {
                   setAppState={setAppState}
                   user={user}
                   setUser={setUser}
+                  setIsLoggedIn={setIsLoggedIn}
+                  isLoggedIn={isLoggedIn}
                 />
               }
             />
@@ -49,6 +82,8 @@ function App() {
                   setAppState={setAppState}
                   appState={appState}
                   user={appState?.user}
+                  setIsLoggedIn={setIsLoggedIn}
+                  isLoggedIn={isLoggedIn}
                 />
               }
             />
@@ -59,6 +94,8 @@ function App() {
                   setAppState={setAppState}
                   user={appState?.user}
                   setUser={setUser}
+                  setIsLoggedIn={setIsLoggedIn}
+                  isLoggedIn={isLoggedIn}
                 />
               }
             />
@@ -68,5 +105,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

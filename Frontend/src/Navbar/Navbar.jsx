@@ -24,8 +24,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Navbar() {
+export default function Navbar(
+  user,
+  setUser,
+  setAppState,
+  setIsLoggedIn,
+  isLoggedIn,
+  appState
+) {
   const classes = useStyles();
+
+  const handleOnLogout = () => {
+    setAppState({});
+    setUser({});
+    setIsLoggedIn(false);
+    navigate("/");
+  };
+
+  console.log(isLoggedIn);
+
+  const button = isLoggedIn ? (
+    <button className="btn_primary" onClick={handleOnLogout}>
+      Logout
+    </button>
+  ) : (
+    <Link to="/register">
+      <button className="btn_primary">Register</button>
+    </Link>
+  );
+
   return (
     <AppBar position="static">
       <CssBaseline />
@@ -50,7 +77,7 @@ export default function Navbar() {
             Login
           </Link>
           <Link to="/register" className={classes.link}>
-            <button className="btn_primary">Sign Up</button>
+            {button}
           </Link>
         </div>
       </Toolbar>

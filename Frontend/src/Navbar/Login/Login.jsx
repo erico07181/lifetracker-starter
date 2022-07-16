@@ -4,8 +4,15 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //import axios from "axios";
 import apiClient from "../../../services/apiClient";
+import { useEffect } from "react";
 
-export default function Login({ user, setUser, setAppState }) {
+export default function Login({
+  user,
+  setUser,
+  setAppState,
+  setIsLoggedIn,
+  isLoggedIn,
+}) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -40,75 +47,68 @@ export default function Login({ user, setUser, setAppState }) {
     if (data?.user) {
       setUser(data.user);
       apiClient.setToken(data.token);
+      setIsLoggedIn(true);
       navigate("/activity");
     }
 
     setIsLoading(false);
-
-    // try {
-    //   const res = await axios.post(`http://localhost:3001/auth/login`, form);
-    //   if (res?.data) {
-    //     setAppState(res.data);
-    //     setIsLoading(false);
-    //     navigate("/activity");
-    //   } else {
-    //     setErrors((e) => ({
-    //       ...e,
-    //       form: "Invalid username/password combination",
-    //     }));
-    //     setIsLoading(false);
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    //   const message = err?.response?.data?.error?.message;
-    //   setErrors((e) => ({
-    //     ...e,
-    //     form: message ? String(message) : String(err),
-    //   }));
-    // }
   };
 
-  return (
-    <div className="Login">
-      <div className="card">
-        <h2>Login</h2>
-        {Boolean(errors.form) && <span className="error">{errors.form}</span>}
-        <br></br>
-        <div className="form">
-          <div className="input-field">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="user@email.com"
-              value={form.email}
-              onChange={handleOnInputChange}
-            />
-            {errors.email && <span className="error">{errors.email}</span>}
+  if (isLoggedIn) {
+    useEffect(() => {
+      if (user?.email) {
+        navigate("/activity");
+      }
+    }, [user, navigate]);
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <div className="Login">
+        <div className="card">
+          <h2>Login</h2>
+          {Boolean(errors.form) && <span className="error">{errors.form}</span>}
+          <br></br>
+          <div className="form">
+            <div className="input-field">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="user@email.com"
+                value={form.email}
+                onChange={handleOnInputChange}
+              />
+              {errors.email && <span className="error">{errors.email}</span>}
+            </div>
+            <div className="input-field">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={form.password}
+                onChange={handleOnInputChange}
+              />
+              {errors.password && (
+                <span className="error">{errors.password}</span>
+              )}
+            </div>
+            <button
+              disabled={isLoading}
+              onClick={handleOnSubmit}
+              className="btn"
+            >
+              {isLoading ? "Loading..." : "Login"}
+            </button>
           </div>
-          <div className="input-field">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={form.password}
-              onChange={handleOnInputChange}
-            />
-            {errors.password && (
-              <span className="error">{errors.password}</span>
-            )}
+          <div className="footer">
+            <p>
+              Don't have an account? Sign up <Link to="/register">here</Link>
+            </p>
           </div>
-          <button disabled={isLoading} onClick={handleOnSubmit} className="btn">
-            {isLoading ? "Loading..." : "Login"}
-          </button>
-        </div>
-        <div className="footer">
-          <p>
-            Don't have an account? Sign up <Link to="/register">here</Link>
-          </p>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
